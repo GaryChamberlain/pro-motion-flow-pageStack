@@ -1,7 +1,7 @@
 {
-  "name": "pro-motion-flow-pageStack",
+  "name": "prostyle-flow-pageStack",
   "version": "0.17.0",
-  "description": "Pro Motion extension for animating stacks of pages.",
+  "description": "ProStyle extension for animating stacks of pages.",
   "author": "Gary Chamberlain <gary@pro.graphics>",
   "devDependencies": {
     "grunt": "0.4.5",

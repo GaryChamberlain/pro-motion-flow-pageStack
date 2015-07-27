@@ -1,8 +1,8 @@
-/// <reference path="../ts/pro.motion.d.ts" />
+/// <reference path="../ts/prostyle.d.ts" />
 
-module Pro.Motion.Extensions.Flows.pageStack {
+module ProStyle.Extensions.Flows.pageStack {
 
-    import Models = Pro.Motion.Models;
+    import Models = ProStyle.Models;
 
     export class Extension extends Models.Flows.PlacementFlow {
 
