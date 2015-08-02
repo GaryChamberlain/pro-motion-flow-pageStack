@@ -1,28 +1,28 @@
 /// <reference path="../ts/prostyle.d.ts" />
-/// <reference path="Extension.ts" />
+/// <reference path="PageStackFlowModel.ts" />
 
-module ProStyle.Extensions.Flows.pageStack {
+module ProStyle.Extensions.Flows.PageStack {
 
     import Models = ProStyle.Models;
-    import Render = ProStyle.Render;
+    import Views = ProStyle.Views;
 
-    export class Renderer extends Render.Flows.PlacementFlow {
+    export class PageStackFlowView extends Views.Flows.PlacementFlowView {
 
-        constructor(private pageStackFlow: Extension, cameraElem: Render.Camera, flowIndex: number) {
-            super(pageStackFlow, cameraElem, flowIndex);
+        constructor(private pageStackFlow: PageStackFlowModel, camera: Views.CameraView, flowIndex: number) {
+            super(pageStackFlow, camera, flowIndex);
         }
 
         public initializePages(timeline: TimelineMax) {
 
-            var pageSize = this.cameraElem.size.getContainedSize(this.pageStackFlow.pageAspectRatio);
+            var pageSize = this.camera.size.getContainedSize(this.pageStackFlow.pageAspectRatio);
 
-            this.pageElems.forEach((pageElem: Render.Page, index: number) => {
+            this.pages.forEach((pageElem: Views.PageView, index: number) => {
                 var css = {
                     width: pageSize.width,
                     height: pageSize.height,
                     perspective: 10000 //(pageSize.width + pageSize.height) / 2
                 };
-                timeline.set(this.pageElems[index].div, css, "initialize");
+                timeline.set(this.pages[index].div, css, "initialize");
             });
         }
 
@@ -33,22 +33,22 @@ module ProStyle.Extensions.Flows.pageStack {
             var past = this.pageStackFlow.stacks.past;
             var pastOffset = this.pageStackFlow.stacks.pastOffset;
 
-            var pageSize = this.cameraElem.size.getContainedSize(this.pageStackFlow.pageAspectRatio);
+            var pageSize = this.camera.size.getContainedSize(this.pageStackFlow.pageAspectRatio);
 
             var css = current.renderCss(pageSize);
-            this.applyCss(timeline, this.pageElems[pageIndex].div, label, 1, css, Expo.easeOut);
+            this.applyCss(timeline, this.pages[pageIndex].div, label, 1, css, Expo.easeOut);
 
             past = past.duplicate();
             for (var i = pageIndex - 1; i >= 0; i--) {
                 css = past.renderCss(pageSize);
-                this.applyCss(timeline, this.pageElems[i].div, label, 1, css, Expo.easeOut);
+                this.applyCss(timeline, this.pages[i].div, label, 1, css, Expo.easeOut);
                 past.adjust(pastOffset);
             }
 
             future = future.duplicate();
-            for (var i = pageIndex + 1; i < this.pageElems.length; i++) {
+            for (var i = pageIndex + 1; i < this.pages.length; i++) {
                 css = future.renderCss(pageSize);
-                this.applyCss(timeline, this.pageElems[i].div, label, 1, css, Expo.easeOut);
+                this.applyCss(timeline, this.pages[i].div, label, 1, css, Expo.easeOut);
                 future.adjust(futureOffset);
             }
         }
